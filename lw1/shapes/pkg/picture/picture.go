@@ -111,8 +111,6 @@ func (p *picture) DrawPicture(canvas model.Canvas) {
 	for _, shape := range p.shapes {
 		shape.Draw(canvas, shape.GetColor())
 	}
-
-	return
 }
 
 func (p *picture) GetShape(id string) (model.Shape, error) {

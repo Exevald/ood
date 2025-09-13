@@ -53,11 +53,11 @@ func (c *commandHandler) HandleCommand(command string) error {
 	case "DrawShape":
 		return c.handleDrawShape(args)
 	case "DrawPicture":
-		return c.handleDrawPicture(args)
+		return c.handleDrawPicture()
 	case "GetShape":
 		return c.handleGetShape(args)
 	case "ListShapes":
-		return c.handleListShapes(args)
+		return c.handleListShapes()
 	case "CloneShape":
 		return c.handleCloneShape(args)
 	}
@@ -174,14 +174,26 @@ func (c *commandHandler) handleDeleteShape(args []string) error {
 }
 
 func (c *commandHandler) handleMoveShape(args []string) error {
+	if len(args) != 3 {
+		return errors.New("MoveShape requires 3 arguments: id, dx, dy")
+	}
+
 	return nil
 }
 
 func (c *commandHandler) handleMovePicture(args []string) error {
+	if len(args) != 2 {
+		return errors.New("MovePicture requires 2 arguments: dx, dy")
+	}
+
 	return nil
 }
 
 func (c *commandHandler) handleChangeColor(args []string) error {
+	if len(args) != 2 {
+		return errors.New("ChangeColor requires 2 arguments: id, color")
+	}
+
 	return nil
 }
 
@@ -190,21 +202,33 @@ func (c *commandHandler) handleChangeShape(args []string) error {
 }
 
 func (c *commandHandler) handleDrawShape(args []string) error {
+	if len(args) != 1 {
+		return errors.New("DrawShape requires 1 argument: id")
+	}
+
 	return nil
 }
 
-func (c *commandHandler) handleDrawPicture(args []string) error {
+func (c *commandHandler) handleDrawPicture() error {
 	return nil
 }
 
 func (c *commandHandler) handleGetShape(args []string) error {
+	if len(args) != 1 {
+		return errors.New("GetShape requires 1 argument: id")
+	}
+
 	return nil
 }
 
-func (c *commandHandler) handleListShapes(args []string) error {
+func (c *commandHandler) handleListShapes() error {
 	return nil
 }
 
 func (c *commandHandler) handleCloneShape(args []string) error {
+	if len(args) != 2 {
+		return errors.New("CloneShape requires 2 arguments: id, newId")
+	}
+
 	return nil
 }
