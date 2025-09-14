@@ -41,7 +41,7 @@ linters-settings:
   govet:
     check-shadowing: true
   goimports:
-    local-prefixes: simuduck
+    local-prefixes: weatherstation
   gocritic:
     disabled-checks:
       - sloppyReassign

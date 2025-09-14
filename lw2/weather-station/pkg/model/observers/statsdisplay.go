@@ -1,25 +1,13 @@
-package model
+package observers
 
 import (
 	"fmt"
 	"math"
+
+	"weatherstation/pkg/model"
 )
 
-func NewDisplay() Observer {
-	return &display{}
-}
-
-type display struct {
-}
-
-func (d *display) Update(data WeatherInfo) {
-	fmt.Printf("Current Temp %.2f\n", data.Temperature)
-	fmt.Printf("Current Hum %.2f\n", data.Humidity)
-	fmt.Printf("Current Pressure %.2f\n", data.Pressure)
-	fmt.Println("----------------")
-}
-
-func NewStatsDisplay() Observer {
+func NewStatsDisplay() model.Observer {
 	return &statsDisplay{
 		minTemperature: math.Inf(1),
 		maxTemperature: math.Inf(-1),
@@ -33,7 +21,7 @@ type statsDisplay struct {
 	countAcc       int
 }
 
-func (d *statsDisplay) Update(data WeatherInfo) {
+func (d *statsDisplay) Update(subjectID string, data model.WeatherInfo) {
 	if data.Temperature < d.minTemperature {
 		d.minTemperature = data.Temperature
 	}

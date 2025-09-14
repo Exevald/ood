@@ -2,16 +2,17 @@ package main
 
 import (
 	"weatherstation/pkg/model"
+	"weatherstation/pkg/model/observers"
 )
 
 func main() {
 	wd := model.NewWeatherData()
 
-	display := model.NewDisplay()
-	wd.RegisterObserver(display)
+	display := observers.NewDisplay()
+	wd.RegisterObserver(display, 0)
 
-	statsDisplay := model.NewStatsDisplay()
-	wd.RegisterObserver(statsDisplay)
+	statsDisplay := observers.NewStatsDisplay()
+	wd.RegisterObserver(statsDisplay, 1)
 
 	wd.SetMeasurements(3, 0.7, 760)
 	wd.SetMeasurements(4, 0.8, 761)
