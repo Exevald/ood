@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"simuduck/pkg/model"
-	"simuduck/pkg/picture"
+	"shapes/pkg/model"
+	"shapes/pkg/picture"
 )
 
 func TestPicture_AddDelete(t *testing.T) {

@@ -3,7 +3,7 @@ package tests
 import (
 	"fmt"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 type MockCanvas struct {

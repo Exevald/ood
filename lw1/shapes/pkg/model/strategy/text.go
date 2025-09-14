@@ -3,7 +3,7 @@ package strategy
 import (
 	"fmt"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 func NewTextStrategy(left, top, fontSize float64, value string) model.ShapeStrategy {

@@ -5,8 +5,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"simuduck/pkg/model"
-	"simuduck/pkg/picture"
+	"shapes/pkg/model"
+	"shapes/pkg/picture"
 )
 
 type MockPicture struct {

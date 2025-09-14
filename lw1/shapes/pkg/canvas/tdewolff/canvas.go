@@ -4,7 +4,7 @@ import (
 	canvaslib "github.com/tdewolff/canvas"
 	"github.com/tdewolff/canvas/renderers"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 func NewCanvas(width, height float64, filename string) model.Canvas {

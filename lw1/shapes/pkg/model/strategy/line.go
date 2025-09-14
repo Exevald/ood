@@ -3,7 +3,7 @@ package strategy
 import (
 	"fmt"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 func NewLineStrategy(x1, y1, x2, y2 float64) model.ShapeStrategy {

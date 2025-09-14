@@ -3,7 +3,7 @@ package strategy
 import (
 	"fmt"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 func NewCircleStrategy(x, y, r float64) model.ShapeStrategy {

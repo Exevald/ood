@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	"simuduck/pkg/model"
-	"simuduck/pkg/model/strategy"
-	"simuduck/pkg/picture"
+	"shapes/pkg/model"
+	"shapes/pkg/model/strategy"
+	"shapes/pkg/picture"
 )
 
 var errEmptyCommand = errors.New("empty command")

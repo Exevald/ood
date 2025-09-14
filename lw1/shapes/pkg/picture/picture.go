@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 var (

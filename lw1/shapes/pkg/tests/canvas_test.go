@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 func TestMockCanvas_SetColor(t *testing.T) {

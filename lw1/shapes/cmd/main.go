@@ -8,8 +8,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"simuduck/pkg/canvas/tdewolff"
-	"simuduck/pkg/picture"
+	"shapes/pkg/canvas/tdewolff"
+	"shapes/pkg/picture"
 )
 
 func main() {

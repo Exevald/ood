@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 type MockShape struct {

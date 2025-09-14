@@ -3,7 +3,7 @@ package strategy
 import (
 	"fmt"
 
-	"simuduck/pkg/model"
+	"shapes/pkg/model"
 )
 
 func NewRectangleStrategy(left, top, width, height float64) model.ShapeStrategy {
