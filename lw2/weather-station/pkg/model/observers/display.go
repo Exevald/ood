@@ -6,15 +6,21 @@ import (
 	"weatherstation/pkg/model"
 )
 
-type display struct{}
+func NewDisplay(bus model.EventBus) model.Observer {
+	display := &display{}
 
-func NewDisplay() model.Observer {
-	return &display{}
+	bus.Subscribe(model.EventTemperatureChanged, display.onTemperatureChanged, 0)
+	bus.Subscribe(model.EventPressureChanged, display.onPressureChanged, 1)
+
+	return display
 }
 
-func (d *display) Update(subjectID string, data model.WeatherInfo) {
-	fmt.Printf("Subject %s Current Temp %.2f\n", subjectID, data.Temperature)
-	fmt.Printf("Subject %s Current Hum %.2f\n", subjectID, data.Humidity)
-	fmt.Printf("Subject %s Current Pressure %.2f\n", subjectID, data.Pressure)
-	fmt.Println("-----------------")
+type display struct{}
+
+func (d *display) onTemperatureChanged(event model.Event) {
+	fmt.Printf("Current Temperature %.2f\n", event.Data)
+}
+
+func (d *display) onPressureChanged(event model.Event) {
+	fmt.Printf("Current Pressure %.2f\n", event.Data)
 }

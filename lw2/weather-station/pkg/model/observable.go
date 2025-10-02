@@ -6,13 +6,12 @@ import (
 )
 
 type Observer interface {
-	Update(subjectID string, data WeatherInfo)
 }
 
 type Observable interface {
 	RegisterObserver(observer Observer, priority int)
 	RemoveObserver(observer Observer)
-	NotifyObservers(data WeatherInfo)
+	NotifyObservers(subjectID string, data WeatherInfo)
 }
 
 type observerEntry struct {
@@ -52,23 +51,19 @@ func (o *observable) RemoveObserver(observer Observer) {
 	o.rebuildSortedList()
 }
 
-func (o *observable) rebuildSortedList() {
-	o.sortedList = make([]observerEntry, 0, len(o.observers))
-	for obs, prio := range o.observers {
-		o.sortedList = append(o.sortedList, observerEntry{observer: obs, priority: prio})
-	}
-	sort.Slice(o.sortedList, func(i, j int) bool {
-		return o.sortedList[i].priority > o.sortedList[j].priority
-	})
-}
-
-func (o *observable) NotifyObservers(data WeatherInfo) {
+func (o *observable) NotifyObservers(subjectID string, data WeatherInfo) {
 	o.mu.RLock()
 	listCopy := make([]observerEntry, len(o.sortedList))
 	copy(listCopy, o.sortedList)
 	o.mu.RUnlock()
+}
 
-	for _, entry := range listCopy {
-		entry.observer.Update("", data)
+func (o *observable) rebuildSortedList() {
+	o.sortedList = make([]observerEntry, 0, len(o.observers))
+	for observer, priority := range o.observers {
+		o.sortedList = append(o.sortedList, observerEntry{observer: observer, priority: priority})
 	}
+	sort.Slice(o.sortedList, func(i, j int) bool {
+		return o.sortedList[i].priority > o.sortedList[j].priority
+	})
 }

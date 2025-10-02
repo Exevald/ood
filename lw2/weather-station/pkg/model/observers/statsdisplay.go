@@ -2,37 +2,40 @@ package observers
 
 import (
 	"fmt"
-	"math"
 
 	"weatherstation/pkg/model"
 )
 
-func NewStatsDisplay() model.Observer {
-	return &statsDisplay{
-		minTemperature: math.Inf(1),
-		maxTemperature: math.Inf(-1),
+func NewStatsDisplay(bus model.EventBus) model.Observer {
+	display := &statsDisplay{
+		temperature: model.NewStats(),
+		humidity:    model.NewStats(),
+		pressure:    model.NewStats(),
 	}
+	bus.Subscribe(model.EventTemperatureChanged, display.onTemperatureChanged, 0)
+	bus.Subscribe(model.EventHumidityChanged, display.onHumidityChanged, 1)
+	bus.Subscribe(model.EventPressureChanged, display.onPressureChanged, 2)
+
+	return display
 }
 
 type statsDisplay struct {
-	minTemperature float64
-	maxTemperature float64
-	accTemperature float64
-	countAcc       int
+	temperature model.Stats
+	humidity    model.Stats
+	pressure    model.Stats
 }
 
-func (d *statsDisplay) Update(subjectID string, data model.WeatherInfo) {
-	if data.Temperature < d.minTemperature {
-		d.minTemperature = data.Temperature
-	}
-	if data.Temperature > d.maxTemperature {
-		d.maxTemperature = data.Temperature
-	}
-	d.accTemperature += data.Temperature
-	d.countAcc++
+func (d *statsDisplay) onTemperatureChanged(event model.Event) {
+	d.temperature.Update(event.Data.(float64))
+	fmt.Println(d.temperature.ToString("Temperature"))
+}
 
-	fmt.Printf("Max Temp %.2f\n", d.maxTemperature)
-	fmt.Printf("Min Temp %.2f\n", d.minTemperature)
-	fmt.Printf("Average Temp %.2f\n", d.accTemperature/float64(d.countAcc))
-	fmt.Println("----------------")
+func (d *statsDisplay) onHumidityChanged(event model.Event) {
+	d.humidity.Update(event.Data.(float64))
+	fmt.Println(d.humidity.ToString("Humidity"))
+}
+
+func (d *statsDisplay) onPressureChanged(event model.Event) {
+	d.pressure.Update(event.Data.(float64))
+	fmt.Println(d.pressure.ToString("Pressure"))
 }

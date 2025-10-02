@@ -6,12 +6,13 @@ import (
 )
 
 func main() {
-	wd := model.NewWeatherData()
+	bus := model.NewEventBus()
+	wd := model.NewIndoorWeatherData("station", bus)
 
-	display := observers.NewDisplay()
+	display := observers.NewDisplay(bus)
 	wd.RegisterObserver(display, 0)
 
-	statsDisplay := observers.NewStatsDisplay()
+	statsDisplay := observers.NewStatsDisplay(bus)
 	wd.RegisterObserver(statsDisplay, 1)
 
 	wd.SetMeasurements(3, 0.7, 760)
