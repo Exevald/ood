@@ -21,7 +21,7 @@ type Shape interface {
 	GetLineStyle() LineStyle
 	SetLineStyle(style LineStyle)
 
-	Draw(canvas Canvas, color Color)
+	Draw(canvas Canvas)
 	Clone() Shape
 
 	GetFrame() Frame

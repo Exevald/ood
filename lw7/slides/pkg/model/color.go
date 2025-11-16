@@ -25,6 +25,12 @@ var (
 	Black  Color = &color{name: "black", rgba: stdcolor.RGBA{R: 0, G: 0, B: 0, A: 255}}
 )
 
+func NewColor(r, g, b, a uint8) Color {
+	return &color{
+		rgba: stdcolor.RGBA{R: r, G: g, B: b, A: a},
+	}
+}
+
 func ParseColor(s string) (Color, error) {
 	switch s {
 	case "red":

@@ -38,7 +38,7 @@ func (r *rectangle) SetLineStyle(style model.LineStyle) {
 	r.lineStyle = style
 }
 
-func (r *rectangle) Draw(canvas model.Canvas, color model.Color) {
+func (r *rectangle) Draw(canvas model.Canvas) {
 	r.fillRectangle(canvas)
 	r.drawRectangleBounds(canvas)
 }
@@ -61,7 +61,6 @@ func (r *rectangle) SetFrame(frame model.Frame) {
 
 func (r *rectangle) fillRectangle(canvas model.Canvas) {
 	if r.fillStyle.Enabled {
-		canvas.SetFillColor(r.fillStyle.Color)
 		canvas.FillPolygon([]model.Point{
 			{r.frame.X, r.frame.Y},
 			{r.frame.X + r.frame.Width, r.frame.Y},
@@ -73,8 +72,6 @@ func (r *rectangle) fillRectangle(canvas model.Canvas) {
 
 func (r *rectangle) drawRectangleBounds(canvas model.Canvas) {
 	if r.lineStyle.Enabled {
-		canvas.SetLineColor(r.lineStyle.Color)
-		canvas.SetLineWidth(r.lineStyle.Width)
 		canvas.DrawLine(r.frame.X, r.frame.Y, r.frame.X+r.frame.Width, r.frame.Y)
 		canvas.DrawLine(r.frame.X+r.frame.Width, r.frame.Y, r.frame.X+r.frame.Width, r.frame.Y+r.frame.Height)
 		canvas.DrawLine(r.frame.X+r.frame.Width, r.frame.Y+r.frame.Height, r.frame.X, r.frame.Y+r.frame.Height)

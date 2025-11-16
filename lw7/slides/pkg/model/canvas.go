@@ -12,4 +12,5 @@ type Canvas interface {
 	DrawEllipse(frame Frame)
 	FillEllipse(frame Frame)
 	FillPolygon(points []Point)
+	SaveToFile(filename string) error
 }
