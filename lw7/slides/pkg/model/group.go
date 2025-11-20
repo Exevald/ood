@@ -4,25 +4,37 @@ import (
 	"math"
 )
 
-type Group struct {
+type Group interface {
+	Add(child Shape)
+	Draw(canvas Canvas)
+	SetFrame(frame Frame)
+	GetFillStyle() FillStyle
+	GetLineStyle() LineStyle
+	SetFillStyle(style FillStyle)
+	SetLineStyle(style LineStyle)
+	Clone() Shape
+	GetFrame() Frame
+}
+
+func NewGroup() Group {
+	return &group{children: make([]Shape, 0)}
+}
+
+type group struct {
 	children []Shape
 }
 
-func NewGroup() *Group {
-	return &Group{children: []Shape{}}
-}
-
-func (g *Group) Add(child Shape) {
+func (g *group) Add(child Shape) {
 	g.children = append(g.children, child)
 }
 
-func (g *Group) Draw(canvas Canvas) {
+func (g *group) Draw(canvas Canvas) {
 	for _, child := range g.children {
 		child.Draw(canvas)
 	}
 }
 
-func (g *Group) GetFrame() Frame {
+func (g *group) GetFrame() Frame {
 	if len(g.children) == 0 {
 		return Frame{}
 	}
@@ -49,7 +61,7 @@ func (g *Group) GetFrame() Frame {
 	}
 }
 
-func (g *Group) SetFrame(frame Frame) {
+func (g *group) SetFrame(frame Frame) {
 	if len(g.children) == 0 {
 		return
 	}
@@ -69,7 +81,7 @@ func (g *Group) SetFrame(frame Frame) {
 	}
 }
 
-func (g *Group) getCommonFillStyle() *FillStyle {
+func (g *group) getCommonFillStyle() *FillStyle {
 	if len(g.children) == 0 {
 		return nil
 	}
@@ -84,7 +96,7 @@ func (g *Group) getCommonFillStyle() *FillStyle {
 	return &result
 }
 
-func (g *Group) getCommonLineStyle() *LineStyle {
+func (g *group) getCommonLineStyle() *LineStyle {
 	if len(g.children) == 0 {
 		return nil
 	}
@@ -100,33 +112,33 @@ func (g *Group) getCommonLineStyle() *LineStyle {
 	return &result
 }
 
-func (g *Group) GetFillStyle() FillStyle {
+func (g *group) GetFillStyle() FillStyle {
 	if common := g.getCommonFillStyle(); common != nil {
 		return *common
 	}
 	return FillStyle{}
 }
 
-func (g *Group) GetLineStyle() LineStyle {
+func (g *group) GetLineStyle() LineStyle {
 	if common := g.getCommonLineStyle(); common != nil {
 		return *common
 	}
 	return LineStyle{}
 }
 
-func (g *Group) SetFillStyle(style FillStyle) {
+func (g *group) SetFillStyle(style FillStyle) {
 	for _, child := range g.children {
 		child.SetFillStyle(style)
 	}
 }
 
-func (g *Group) SetLineStyle(style LineStyle) {
+func (g *group) SetLineStyle(style LineStyle) {
 	for _, child := range g.children {
 		child.SetLineStyle(style)
 	}
 }
 
-func (g *Group) Clone() Shape {
+func (g *group) Clone() Shape {
 	newGroup := NewGroup()
 	for _, child := range g.children {
 		newGroup.Add(child.Clone())

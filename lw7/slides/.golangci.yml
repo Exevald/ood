@@ -41,7 +41,7 @@ linters-settings:
   govet:
     check-shadowing: true
   goimports:
-    local-prefixes: pictures
+    local-prefixes: slides
   gocritic:
     disabled-checks:
       - sloppyReassign

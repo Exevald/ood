@@ -11,9 +11,11 @@ func NewCanvas(width, height float64, filename string) model.Canvas {
 	canvas := canvaslib.New(width, height)
 	canvasContext := canvaslib.NewContext(canvas)
 
-	return &CanvasLib{
+	return &canvasLib{
 		canvas:        canvas,
 		canvasContext: canvasContext,
+		width:         width,
+		height:        height,
 		fillColor:     model.NewColor(255, 255, 255, 255),
 		lineColor:     model.NewColor(0, 0, 0, 255),
 		lineWidth:     1.0,
@@ -21,31 +23,37 @@ func NewCanvas(width, height float64, filename string) model.Canvas {
 	}
 }
 
-type CanvasLib struct {
+type canvasLib struct {
 	canvas        *canvaslib.Canvas
 	canvasContext *canvaslib.Context
+	width         float64
+	height        float64
 	fillColor     model.Color
 	lineColor     model.Color
 	lineWidth     float64
 	filename      string
 }
 
-func (c *CanvasLib) SetFillColor(color model.Color) {
+func (c *canvasLib) convertY(y float64) float64 {
+	return c.height - y
+}
+
+func (c *canvasLib) SetFillColor(color model.Color) {
 	c.fillColor = color
 }
 
-func (c *CanvasLib) SetLineColor(color model.Color) {
+func (c *canvasLib) SetLineColor(color model.Color) {
 	c.lineColor = color
 }
 
-func (c *CanvasLib) SetLineWidth(width float64) {
+func (c *canvasLib) SetLineWidth(width float64) {
 	c.lineWidth = width
 }
 
-func (c *CanvasLib) DrawLine(x1, y1, x2, y2 float64) {
+func (c *canvasLib) DrawLine(x1, y1, x2, y2 float64) {
 	path := &canvaslib.Path{}
-	path.MoveTo(x1, y1)
-	path.LineTo(x2, y2)
+	path.MoveTo(x1, c.convertY(y1))
+	path.LineTo(x2, c.convertY(y2))
 
 	if c.lineWidth > 0 {
 		c.canvasContext.SetStrokeColor(c.lineColor.ToRGBA())
@@ -54,11 +62,14 @@ func (c *CanvasLib) DrawLine(x1, y1, x2, y2 float64) {
 	}
 }
 
-func (c *CanvasLib) DrawEllipse(frame model.Frame) {
+func (c *canvasLib) DrawEllipse(frame model.Frame) {
 	cx := frame.X + frame.Width/2
 	cy := frame.Y + frame.Height/2
 	rx := frame.Width / 2
 	ry := frame.Height / 2
+
+	cx = cx
+	cy = c.convertY(cy)
 
 	path := &canvaslib.Path{}
 	path.MoveTo(cx+rx, cy)
@@ -69,11 +80,14 @@ func (c *CanvasLib) DrawEllipse(frame model.Frame) {
 	c.canvasContext.DrawPath(0, 0, path)
 }
 
-func (c *CanvasLib) FillEllipse(frame model.Frame) {
+func (c *canvasLib) FillEllipse(frame model.Frame) {
 	cx := frame.X + frame.Width/2
 	cy := frame.Y + frame.Height/2
 	rx := frame.Width / 2
 	ry := frame.Height / 2
+
+	cx = cx
+	cy = c.convertY(cy)
 
 	path := &canvaslib.Path{}
 	path.MoveTo(cx+rx, cy)
@@ -83,15 +97,15 @@ func (c *CanvasLib) FillEllipse(frame model.Frame) {
 	c.canvasContext.DrawPath(0, 0, path)
 }
 
-func (c *CanvasLib) FillPolygon(points []model.Point) {
+func (c *canvasLib) FillPolygon(points []model.Point) {
 	if len(points) == 0 {
 		return
 	}
 
 	path := &canvaslib.Path{}
-	path.MoveTo(points[0].X, points[0].Y)
+	path.MoveTo(points[0].X, c.convertY(points[0].Y))
 	for _, pt := range points[1:] {
-		path.LineTo(pt.X, pt.Y)
+		path.LineTo(pt.X, c.convertY(pt.Y))
 	}
 	path.Close()
 
@@ -99,7 +113,7 @@ func (c *CanvasLib) FillPolygon(points []model.Point) {
 	c.canvasContext.DrawPath(0, 0, path)
 }
 
-func (c *CanvasLib) SaveToFile(filename string) error {
+func (c *canvasLib) SaveToFile(filename string) error {
 	if filename == "" {
 		filename = c.filename
 	}

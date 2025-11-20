@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+
 	"slides/pkg/canvas/cli"
 	"slides/pkg/canvas/tdewolff"
 	"slides/pkg/model"
@@ -62,9 +63,7 @@ func main() {
 	slide.Add(sun)
 
 	slideClone := slide.Clone()
-	if clone, ok := slideClone.(*model.Group); ok {
-		clone.SetFrame(model.Frame{X: 0, Y: 0, Width: 600, Height: 400}) // move/scale if needed
-	}
+	slideClone.SetFrame(model.Frame{X: 0, Y: 0, Width: 600, Height: 400})
 
 	cliCanvas := cli.NewConsoleCanvas()
 	slide.Draw(cliCanvas)

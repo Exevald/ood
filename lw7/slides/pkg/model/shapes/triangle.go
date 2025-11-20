@@ -75,11 +75,17 @@ func (t *triangle) fillTriangle(canvas model.Canvas) {
 }
 
 func (t *triangle) drawTriangleBounds(canvas model.Canvas) {
-	if t.lineStyle.Enabled {
-		canvas.SetLineColor(t.lineStyle.Color)
-		canvas.SetLineWidth(t.lineStyle.Width)
-		canvas.DrawLine(t.frame.X+t.frame.Width, t.frame.Y, t.frame.X+t.frame.Width, t.frame.Y+t.frame.Height)
-		canvas.DrawLine(t.frame.X+t.frame.Width, t.frame.Y+t.frame.Height, t.frame.X, t.frame.Y+t.frame.Height)
-		canvas.DrawLine(t.frame.X, t.frame.Y+t.frame.Height, t.frame.X, t.frame.Y)
+	if !t.lineStyle.Enabled {
+		return
 	}
+	canvas.SetLineColor(t.lineStyle.Color)
+	canvas.SetLineWidth(t.lineStyle.Width)
+
+	p0 := t.points[0]
+	p1 := t.points[1]
+	p2 := t.points[2]
+
+	canvas.DrawLine(p0.X, p0.Y, p1.X, p1.Y)
+	canvas.DrawLine(p1.X, p1.Y, p2.X, p2.Y)
+	canvas.DrawLine(p2.X, p2.Y, p0.X, p0.Y)
 }

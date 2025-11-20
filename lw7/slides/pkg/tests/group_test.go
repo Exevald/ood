@@ -62,7 +62,7 @@ func TestClone(t *testing.T) {
 		model.Frame{X: 10, Y: 10, Width: 20, Height: 20},
 	)
 	g1.Add(r)
-	g2 := g1.Clone().(*model.Group)
+	g2 := g1.Clone()
 
 	g2.SetFrame(model.Frame{X: 100, Y: 100, Width: 30, Height: 30})
 	originalFrame := r.GetFrame()
