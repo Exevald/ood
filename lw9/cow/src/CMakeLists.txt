@@ -1,0 +1,11 @@
+add_executable(
+        cow
+        main.cpp
+        CoW.h
+        Tile.cpp
+        Tile.h
+        Drawer.h
+        Image.h
+        Image.cpp
+        Drawer.cpp
+)
