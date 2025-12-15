@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package webeditor;
+
+enum ShapeType {
+  RECT = 0;
+  TRIANGLE = 1;
+  ELLIPSE = 2;
+  IMAGE = 3;
+}
+
+message Rect {
+  float x = 1;
+  float y = 2;
+  float width = 3;
+  float height = 4;
+}
+
+message Shape {
+  string id = 1;
+  ShapeType type = 2;
+  Rect geometry = 3;
+}
+
+message DocumentState {
+  repeated Shape shapes = 1;
+  int64 version = 2;
+}
+
+message Command {
+  enum ActionType {
+    ADD = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    CLEAR = 3;
+  }
+  ActionType action = 1;
+  Shape shape = 2;
+  string target_id = 3;
+}
+
+message Empty {}
+
+service CanvasService {
+  rpc Subscribe (Empty) returns (stream DocumentState) {}
+  rpc SendCommand (Command) returns (Empty) {}
+}
